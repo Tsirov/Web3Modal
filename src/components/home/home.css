@@ -1,0 +1,38 @@
+.home-wrapper{
+    display: flex;
+    position: relative;
+    /* flex-wrap: nowrap; */
+    flex-direction: column;
+    align-items: center;
+}
+
+.home-header{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-around
+}
+.home-network{
+    margin-right:10px
+}
+
+.home-network-connect{
+    font-size:10px;
+    margin:0px;
+}
+.home-network-network{
+    font-size:13px;
+    margin:0px;
+    
+}
+
+.home-address{
+    margin:0;
+    font-size:10px;
+}
+
+.home-account-info-balance{
+    margin:0;
+    font-size:13px;
+
+}

@@ -1,0 +1,28 @@
+
+.send-wrapper{
+    display:flex;
+    justify-content: center;
+    margin-top:30px
+}
+.send-wrapper> form{
+    width:350px;
+    
+}
+
+main{
+    margin-top:10px;
+    /* margin-bottom: 50px; */
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.label{
+    display: flex;
+    flex-direction: column;
+}
+
+button{
+ text-align: center;
+}
+
