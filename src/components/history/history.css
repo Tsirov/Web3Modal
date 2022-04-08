@@ -1,0 +1,30 @@
+.history-second-wrapper{
+    display:flex;
+    width:100%;
+    justify-content: space-between;
+    padding-left:30px;
+    padding-right:30px;
+    border: 1px solid black;
+    margin-top:5px;
+    margin-bottom:5px;
+}
+
+.history-address{
+    display:flex;
+    flex-direction: column
+}
+
+.history-amount{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-end
+
+}
+
+.history-wrapper-buttons{
+    display:flex;
+    justify-content: space-around
+}
+.history-bottom{
+    width: fit-content;
+}
