@@ -19,7 +19,6 @@ const Send = (props) => {
                 try {
                     const provider = new ethers.providers.Web3Provider(currentProvider)
                     const currentSigner = provider.getSigner();
-                    console.log(currentSigner);
                     setSigner(currentSigner);
                     const currentAddress = await currentSigner.getAddress();
                     setAddress(currentAddress);
@@ -28,6 +27,15 @@ const Send = (props) => {
                 } catch (err) {
                     console.log(err);
                 }
+            } else {
+                setSigner('');
+                setAddress('');
+                setBalance(0);
+                setAmount(0);
+                setSenderAddress('');
+                setError('');
+                setGasPrice(0);
+                setErrorAddress({});
             }
         }
         start();
@@ -59,9 +67,9 @@ const Send = (props) => {
                 setErrorAddress({});
 
             } catch (err) {
-                setErrorAddress({ backgroundColor: "red"});
+                setErrorAddress({ backgroundColor: "red" });
             }
-        }else if (senderAddress.length === 0) {
+        } else if (senderAddress.length === 0) {
             setErrorAddress({});
         }
 
@@ -80,25 +88,23 @@ const Send = (props) => {
             } catch (err) {
                 console.log(err);
             }
-             
+
         }
-        
-        console.log('11111', neededAmount, balance);
+
         if (neededAmount <= balance) {
-            if ( Object.keys(errorAddress).length === 0) {
+            if (Object.keys(errorAddress).length === 0) {
                 transaction();
                 setError('');
-                
+
             } else {
                 setError('The address is wrong.')
             }
         } else {
             setError('Insufficient funds.')
         }
-        
+
     }
 
-    console.log('render',amount);
     return (
         <section className="send-wrapper">
 
@@ -121,7 +127,7 @@ const Send = (props) => {
                 </div>
 
                 <button>Send</button>
-                { error.length > 0 ? <p style={{color: 'red'}}>{ error}</p> :'' }
+                { error.length > 0 ? <p style={ { color: 'red' } }>{ error }</p> : '' }
             </form>
 
         </section>
