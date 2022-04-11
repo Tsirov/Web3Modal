@@ -24,19 +24,19 @@ function App() {
     }
     return (
         <main>
-
+            {/* <Home provider={ provider } getProvider={ getProvider } /> */}
             <Routes>
-                <Route path="/" element={ <Home provider={ provider } getProvider={ getProvider } /> } />
+                <Route path="/" element={ <Home provider={ provider } getProvider={ getProvider } /> } /> 
                 <Route path="/send" element={
                     <>
-                       <Home provider={ provider } getProvider={ getProvider } /> 
-                       {provider ? <Send provider={ provider } /> : ''}
+                        <Home provider={ provider } getProvider={ getProvider } />  
+                        { provider ? <Send provider={ provider } /> : '' }
                     </>
                 } />
                 <Route path="/history" element={
                     <>
-                        <Home provider={ provider } getProvider={ getProvider } />
-                        {provider ? <History provider={ provider } getHistory={getHistory} />: ''}
+                         <Home provider={ provider } getProvider={ getProvider } /> 
+                        { provider ? <History provider={ provider } getHistory={ getHistory } /> : '' }
                     </>
                 } />
             </Routes>

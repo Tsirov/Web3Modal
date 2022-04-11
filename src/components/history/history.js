@@ -104,7 +104,6 @@ const History = (props) => {
         )
     }
 
-    console.log('anton', sendPayments);
     return (
         <section className="history-wrapper">
             {/* <section>
