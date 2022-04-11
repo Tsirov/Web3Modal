@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { ethers } from 'ethers';
+import ethers from 'ethers';
 import { useEffect } from 'react';
 import Web3Modal from 'web3modal';
 import { useState } from 'react';
