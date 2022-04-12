@@ -1,5 +1,17 @@
 .connection-button{
     width: fit-content;
-    /* align-content: center;
-    justify-content: center; */
+    
+    background-color: #53A3FF;
+    font-size:30px;
+    padding:8px;
+    border-radius: 18px;
+    cursor: pointer;
+    margin: 0;
+}
+.connection-name{
+    /* font-family: sans-serif; */
+}
+
+.connection-button:hover{
+    background-color: green;
 }

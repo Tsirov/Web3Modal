@@ -79,7 +79,7 @@ const History = (props) => {
         }
     }
 
-    const viewTransactions = (payments) => {
+    const viewTransactions = (payments, type) => {
         return (
             payments.map((obj, i) => {
                 return (
@@ -88,8 +88,8 @@ const History = (props) => {
                             ? <HistoryTransaction historyTransaction={ obj } />
                             : <>
                                 <div className="history-address">
-                                    <h1>To Address:</h1>
-                                    <p>{ obj.to }</p>
+                                    <h1>{type === 'send' ? "To Address:" : 'From Address' }</h1>
+                                    <p>{type === 'send' ? obj.to : obj.from  }</p>
                                 </div>
                                 <div className="history-amount">
                                     <h1>Amount:</h1>
@@ -103,7 +103,6 @@ const History = (props) => {
             })
         )
     }
-
     return (
         <section className="history-wrapper">
             {/* <section>
@@ -118,8 +117,8 @@ const History = (props) => {
                 <button className="history-bottom" onClick={ clickHandlerReceive }> Receive Transaction</button>
             </section>
 
-            { sendPayments.length > 0 ? viewTransactions(sendPayments) : '' }
-            { receivePayments.length > 0 ? viewTransactions(receivePayments) : '' }
+            { sendPayments.length > 0 ? viewTransactions(sendPayments, 'send') : '' }
+            { receivePayments.length > 0 ? viewTransactions(receivePayments,'receive') : '' }
 
         </section>
 

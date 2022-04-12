@@ -26,9 +26,6 @@ const Connection = (props) => {
           }
     }
 
-    const walletConnectProvider = new WalletConnectProvider({
-        infuraId:  INFURA_ID,
-        });
 
     const web3Modal = new Web3Modal({
         cacheProvider: true, // optional
@@ -68,7 +65,7 @@ const Connection = (props) => {
 
     return (
         <>
-            { provider ? '' : <h1>Connect to Wallet</h1> }
+            { provider ? '' : <h1 className="connection-name">Connect to Wallet</h1> }
 
             { provider ? '' : <button className="connection-button" onClick={ connectWallet }>Connect</button> }
 

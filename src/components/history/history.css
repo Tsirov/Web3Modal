@@ -2,12 +2,34 @@
     display:flex;
     width:100%;
     justify-content: space-between;
-    padding-left:30px;
-    padding-right:30px;
+    /* padding-left:30px;
+    padding-right:30px; */
     border: 1px solid black;
     margin-top:5px;
     margin-bottom:5px;
     cursor:pointer;
+    position:relative;
+    /* padding-right: 10px;
+    padding-left: 10px */
+    padding:10px;
+}
+
+.history-transaction-wrapper{
+    width:100%; 
+}
+.history-transaction-article{
+   width:100%; 
+   padding: 7px 0px 7px 16px;
+}
+.history-transaction-article > h1,
+.history-transaction-article > p{
+margin:0;
+}
+
+hr{
+    margin:0;
+    border:1px solid black;
+    height:2px;
 }
 
 .history-address{
@@ -28,4 +50,5 @@
 }
 .history-bottom{
     width: fit-content;
+    margin: 12px 0 0 0;
 }

@@ -51,6 +51,7 @@ const Send = (props) => {
                         value: ethers.utils.parseEther(amount)
                     })));
                     const gasFee = gasPrice * estimateGas;
+                    console.log('gasPrice',ethers.utils.formatEther(gasPrice), 'estimateGas', ethers.utils.formatEther(estimateGas));
                     setGasPrice(ethers.utils.formatEther(gasFee));
                 } catch (err) {
                     console.log(err);

@@ -5,10 +5,16 @@
     margin:0
 }
 .header-button{
+    margin:5px;
     border-radius:5px;
-
+    cursor:pointer;
+    background: transparent;
+    border: none;
+    font-weight: 700;
+    padding: 10px;
 }
 
 .header-button:hover{
     background-color:green;
 }
+
