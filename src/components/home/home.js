@@ -3,13 +3,18 @@ import Connection from '../connection/connection';
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers'
 import './home.css';
+import Token from './Token-abi.json'
+
+const tokenAddress = '0xb9ebd829546effcab00d74b1448d0c6b7e32adba';
 
 const Home = (props) => {
     const currentProvider = props.provider;
+    const token = props.token;
     const [provider, setProvider] = useState({});
     const [address, setAddress] = useState('');
     const [network, setNetwork] = useState('');
     const [balance, setBalance] = useState(0);
+    const [tokenBalance, setTokenBalance] = useState(0);
 
     useEffect(() => {
         async function start() {
@@ -24,6 +29,10 @@ const Home = (props) => {
                     setNetwork(currentNetwork);
                     const currentBalance = await ethProvider.getBalance(currentAddress);
                     setBalance(ethers.utils.formatEther(currentBalance));
+
+                    const currentContract = new ethers.Contract(tokenAddress, Token.abi, ethProvider);
+                    const balance = await currentContract.balanceOf(currentAddress);
+                    setTokenBalance(ethers.utils.formatEther(balance));
                 } catch (err) {
                     console.log(err);
                 }
@@ -51,6 +60,7 @@ const Home = (props) => {
                     <article className="home-account-info">
                         <p className="home-address">{ address }</p>
                         <p className="home-account-info-balance">Balance is <b>{ balance }</b>  ETH </p>
+                       {token === 'ETH' ? '': <p className="home-account-info-balance">Balance is <b>{ tokenBalance }</b>  {token} </p>} 
                     </article>
                 </section>
                 :

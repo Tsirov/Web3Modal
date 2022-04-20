@@ -18,12 +18,10 @@ const History = (props) => {
                 try {
                     const ethProvider = new ethers.providers.Web3Provider(currentProvider);
                     const currentSigner = ethProvider.getSigner();
-                    // setSigner(currentSigner)
-                    // setProvider(ethProvider)
                     const network = await ethProvider.getNetwork();
-                    const networkProvider = new ethers.providers.EtherscanProvider(network.name)
+                    const networkProvider = new ethers.providers.EtherscanProvider(network);
                     const currentAddress = await currentSigner.getAddress();
-                    setAddress(currentAddress)
+                    setAddress(currentAddress);
                     let currentHistory = await networkProvider.getHistory(currentAddress);
                     getHistoryFromProps(currentHistory);
                     setHistory(currentHistory);
@@ -103,6 +101,9 @@ const History = (props) => {
             })
         )
     }
+    let a = 'a9059cbb00000000000000000000000001bf19665c85053c5de3c8cdc9170e4fcd3317c500000000000000000000000000000000000000000000001cf2bd1abf2a980000'
+    console.log(history);
+    // console.log( history.length > 1 ? abi.decode(history[16].data,(address, address, uint256)) : ' notting');
     return (
         <section className="history-wrapper">
             {/* <section>

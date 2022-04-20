@@ -15,12 +15,16 @@ import Home from './components/home/home'
 function App() {
     const [provider, setProvider] = useState(null);
     const [history, setHistory] = useState(null);
+    const [token, setToken] = useState('ETH');
 
     function getProvider(currentProvider) {
         setProvider(currentProvider)
     }
     function getHistory(currentHistory) {
         setHistory(currentHistory);
+    }
+    function getToken(currentToken) {
+        setToken(currentToken)
     }
     return (
         <main>
@@ -29,13 +33,13 @@ function App() {
                 <Route path="/" element={ <Home provider={ provider } getProvider={ getProvider } /> } /> 
                 <Route path="/send" element={
                     <>
-                        <Home provider={ provider } getProvider={ getProvider } />  
-                        { provider ? <Send provider={ provider } /> : '' }
+                        <Home provider={ provider } getProvider={ getProvider } token={ token } />  
+                        { provider ? <Send provider={ provider } getProvider={getProvider} token={token} getToken={ getToken} /> : '' }
                     </>
                 } />
                 <Route path="/history" element={
                     <>
-                         <Home provider={ provider } getProvider={ getProvider } /> 
+                         <Home provider={ provider } getProvider={ getProvider } token={ token} /> 
                         { provider ? <History provider={ provider } getHistory={ getHistory } /> : '' }
                     </>
                 } />

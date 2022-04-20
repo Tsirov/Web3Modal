@@ -13,11 +13,14 @@
     width: 100%;
     height: 92vh;
     position: relative;
+    margin: auto 0;
+    flex-direction: column;
+    align-items: center;
 }
 .send-wrapper > form {
-    margin-top: 30%;
+    margin-top: 20px;
     width: 350px;
-    margin: auto 0;
+    
 }
 
 main {
