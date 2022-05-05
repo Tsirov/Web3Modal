@@ -1,28 +1,51 @@
-
-.send-wrapper{
-    display:flex;
+.send-wrapper {
+    display: flex;
     justify-content: center;
-    margin-top:30px
+    margin-top: 30px;
+    background: linear-gradient(
+            rgba(255, 255, 255, 0.5),
+            rgba(255, 255, 255, 0.5)
+        ),
+        url("https://wp-api.zipmex.com/wp-content/uploads/2022/02/Fear-and-Greed-BTC-Price-1024x515.png")
+            center;
+            background-repeat:no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 92vh;
+    position: relative;
+    margin: auto 0;
+    flex-direction: column;
+    align-items: center;
 }
-.send-wrapper> form{
-    width:350px;
+.send-wrapper > form {
+    margin-top: 20px;
+    width: 350px;
     
 }
 
-main{
-    margin-top:10px;
+main {
+    margin-top: 10px;
     /* margin-bottom: 50px; */
     display: flex;
     justify-content: center;
     flex-direction: column;
 }
 
-.label{
+.label {
     display: flex;
     flex-direction: column;
 }
 
-button{
- text-align: center;
+button {
+    text-align: center;
+    margin-left: 42%;
+    margin-top: 10px;
+    font-size: 15px;
+    padding: 4px 10px;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
+button:hover {
+    background-color: green;
+}

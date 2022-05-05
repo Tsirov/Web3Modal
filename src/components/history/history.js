@@ -18,12 +18,10 @@ const History = (props) => {
                 try {
                     const ethProvider = new ethers.providers.Web3Provider(currentProvider);
                     const currentSigner = ethProvider.getSigner();
-                    // setSigner(currentSigner)
-                    // setProvider(ethProvider)
                     const network = await ethProvider.getNetwork();
-                    const networkProvider = new ethers.providers.EtherscanProvider(network.name)
+                    const networkProvider = new ethers.providers.EtherscanProvider(network);
                     const currentAddress = await currentSigner.getAddress();
-                    setAddress(currentAddress)
+                    setAddress(currentAddress);
                     let currentHistory = await networkProvider.getHistory(currentAddress);
                     getHistoryFromProps(currentHistory);
                     setHistory(currentHistory);
@@ -79,7 +77,7 @@ const History = (props) => {
         }
     }
 
-    const viewTransactions = (payments) => {
+    const viewTransactions = (payments, type) => {
         return (
             payments.map((obj, i) => {
                 return (
@@ -88,8 +86,8 @@ const History = (props) => {
                             ? <HistoryTransaction historyTransaction={ obj } />
                             : <>
                                 <div className="history-address">
-                                    <h1>To Address:</h1>
-                                    <p>{ obj.to }</p>
+                                    <h1>{type === 'send' ? "To Address:" : 'From Address' }</h1>
+                                    <p>{type === 'send' ? obj.to : obj.from  }</p>
                                 </div>
                                 <div className="history-amount">
                                     <h1>Amount:</h1>
@@ -103,7 +101,9 @@ const History = (props) => {
             })
         )
     }
-
+    let a = 'a9059cbb00000000000000000000000001bf19665c85053c5de3c8cdc9170e4fcd3317c500000000000000000000000000000000000000000000001cf2bd1abf2a980000'
+    console.log(history);
+    // console.log( history.length > 1 ? abi.decode(history[16].data,(address, address, uint256)) : ' notting');
     return (
         <section className="history-wrapper">
             {/* <section>
@@ -118,8 +118,8 @@ const History = (props) => {
                 <button className="history-bottom" onClick={ clickHandlerReceive }> Receive Transaction</button>
             </section>
 
-            { sendPayments.length > 0 ? viewTransactions(sendPayments) : '' }
-            { receivePayments.length > 0 ? viewTransactions(receivePayments) : '' }
+            { sendPayments.length > 0 ? viewTransactions(sendPayments, 'send') : '' }
+            { receivePayments.length > 0 ? viewTransactions(receivePayments,'receive') : '' }
 
         </section>
 

@@ -3,12 +3,33 @@ import Web3Modal from 'web3modal';
 import { useState, useEffect } from 'react';
 import './connection.css';
 
+import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
+import WalletConnectProvider from "@walletconnect/web3-provider";
+
 const Connection = (props) => {
     const getProvider = props.getProvider;
     let [provider, setProvider] = useState(undefined);
+    const INFURA_ID = 'f71e0fb08d4f4feba66004cd0ffd4200';
+    const providerOptions = {
+        coinbasewallet: {
+            package: CoinbaseWalletSDK, // Required
+            options: {
+                // appName: "My Awesome App", // Required
+                infuraId: INFURA_ID, // Required
+            }
+        },
+        walletconnect: {
+            package: WalletConnectProvider, // required
+            options: {
+              infuraId: INFURA_ID // required
+            }
+          }
+    }
+
+
     const web3Modal = new Web3Modal({
         cacheProvider: true, // optional
-        providerOptions: {}
+        providerOptions
     });
 
     useEffect(() => {
@@ -25,7 +46,7 @@ const Connection = (props) => {
             const providerEthers = new ethers.providers.Web3Provider(currentProvider);
             props.provider(currentProvider)
             currentProvider.on("accountsChanged", (e) => {
-                if (e[0].length > 0) {
+                if (e.length > 0) {
                     getProvider(null);
                 } else {
                     web3Modal.clearCachedProvider();
@@ -44,7 +65,7 @@ const Connection = (props) => {
 
     return (
         <>
-            { provider ? '' : <h1>Connect to Wallet</h1> }
+            { provider ? '' : <h1 className="connection-name">Connect to Wallet</h1> }
 
             { provider ? '' : <button className="connection-button" onClick={ connectWallet }>Connect</button> }
 
