@@ -4,6 +4,17 @@
 .header-wrapper > p{
     margin:0
 }
+
+.header-wrapper-price{
+display:flex;
+margin:0;
+}
+
+.header-wrapper-price-h5{
+margin:0;
+
+}
+
 .header-button{
     margin:5px;
     border-radius:5px;
