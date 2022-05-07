@@ -11,7 +11,6 @@ const Send = (props) => {
     const currentToken = props.token;
     const [token, setToken] = useState(currentToken);
     const [signer, setSigner] = useState('');
-    const [address, setAddress] = useState('');
     const [balance, setBalance] = useState(0);
     const [amount, setAmount] = useState(0);
     const [senderAddress, setSenderAddress] = useState('');
@@ -19,12 +18,14 @@ const Send = (props) => {
     const [gasPrice, setGasPrice] = useState(0);
     const [errorAddress, setErrorAddress] = useState({});
     const [miningTransaction, setMiningTransaction] = useState(false);
+    const [address, setAddress] = useState('');
+
+    const provider = new ethers.providers.Web3Provider(currentProvider);
 
     useEffect(() => {
         async function start() {
             if (currentProvider) {
                 try {
-                    const provider = new ethers.providers.Web3Provider(currentProvider)
                     const currentSigner = provider.getSigner();
                     setSigner(currentSigner);
                     const currentAddress = await currentSigner.getAddress();
@@ -36,7 +37,6 @@ const Send = (props) => {
                 }
             } else {
                 setSigner('');
-                setAddress('');
                 setBalance(0);
                 setAmount(0);
                 setSenderAddress('');
@@ -94,7 +94,6 @@ const Send = (props) => {
 
             async function transaction() {
                 try {
-                    const provider = new ethers.providers.Web3Provider(currentProvider)
                     const tx = await signer.sendTransaction({
                         to: senderAddress,
                         value: ethers.utils.parseEther(amount)
@@ -120,20 +119,16 @@ const Send = (props) => {
             }
         } else if (currentToken === "DooM") {
             const tokenAddress = '0xb9ebd829546effcab00d74b1448d0c6b7e32adba';
-            const ethProvider = new ethers.providers.Web3Provider(currentProvider);
-            const currentSigner = ethProvider.getSigner();
-            const currentAddress = await currentSigner.getAddress();
-            const currentContract = new ethers.Contract(tokenAddress, Token.abi, ethProvider);
-            const erc20_rw = new ethers.Contract(tokenAddress, Token.abi, currentSigner);
-
-            const balanceOfToken = await currentContract.balanceOf(currentAddress);
+            const currentContract = new ethers.Contract(tokenAddress, Token.abi, provider);
+            const erc20_rw = new ethers.Contract(tokenAddress, Token.abi, signer);
+            const balanceOfToken = await currentContract.balanceOf(address); 
 
             async function transaction() {
                 try {
                     const tx = await erc20_rw.transfer(senderAddress, ethers.utils.parseEther(amount));
-                    console.log('tx',tx);
+                    console.log('tx', tx);
                     setMiningTransaction(true);
-                    const minedTransaction = await ethProvider.waitForTransaction(tx.hash);
+                    await provider.waitForTransaction(tx.hash);
                     setMiningTransaction(false);
                     setNewProvider(null);
                 } catch (err) {
@@ -193,7 +188,7 @@ const Send = (props) => {
     return (
         <section className="send-wrapper">
             { miningTransaction
-                ? <h1>Transaction is mining ...</h1>  : sendView() }
+                ? <h1>Transaction is mining ...</h1> : sendView() }
 
         </section>
     )

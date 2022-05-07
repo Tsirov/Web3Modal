@@ -1,8 +1,9 @@
+import { ethers } from 'ethers'
+import { useEffect, useState } from 'react';
+
+import './home.css';
 import Header from '../header/header';
 import Connection from '../connection/connection';
-import { useEffect, useState } from 'react';
-import { ethers } from 'ethers'
-import './home.css';
 import Token from './Token-abi.json'
 
 const tokenAddress = '0x9da3d2486228563A8b83E3cbFC47056832e83741';
@@ -31,14 +32,9 @@ const Home = (props) => {
                     setNetwork(currentNetwork);
                     const currentBalance = await ethProvider.getBalance(currentAddress);
                     setBalance(ethers.utils.formatEther(currentBalance));
-
                     const currentContract = new ethers.Contract(tokenAddress, Token.abi, ethProvider);
                     setContract(currentContract);
-
-
                     const balance = await currentContract.balanceOf(currentAddress);
-
-
                     setTokenBalance(ethers.utils.formatEther(balance));
                 } catch (err) {
                     console.log(err);
@@ -53,8 +49,6 @@ const Home = (props) => {
         }
         start();
     }, [currentProvider]);
-
-   
 
     return (
         <section className="home-wrapper">

@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import Web3Modal from 'web3modal';
+
 import './header.css';
 
 const Header = (props) => {
@@ -12,7 +13,7 @@ const Header = (props) => {
     const navigate = useNavigate();
 
     const web3Modal = new Web3Modal({
-        cacheProvider: true, // optional
+        cacheProvider: true,
         providerOptions: {}
     });
 

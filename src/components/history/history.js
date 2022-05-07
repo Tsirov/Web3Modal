@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
+
 import HistoryTransaction from './hisrotyTransaction/historyTransaction'
 import './history.css'
 
@@ -101,18 +102,9 @@ const History = (props) => {
             })
         )
     }
-    let a = 'a9059cbb00000000000000000000000001bf19665c85053c5de3c8cdc9170e4fcd3317c500000000000000000000000000000000000000000000001cf2bd1abf2a980000'
-    console.log(history);
-    // console.log( history.length > 1 ? abi.decode(history[16].data,(address, address, uint256)) : ' notting');
+  
     return (
         <section className="history-wrapper">
-            {/* <section>
-                { history.map((obj) => {
-                    return (
-                        
-                    )
-                })}
-            </section> */}
             <section className="history-wrapper-buttons">
                 <button className="history-bottom" onClick={ clickHandlerSend }> Send Transaction</button>
                 <button className="history-bottom" onClick={ clickHandlerReceive }> Receive Transaction</button>

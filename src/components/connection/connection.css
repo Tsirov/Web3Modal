@@ -8,9 +8,6 @@
     cursor: pointer;
     margin: 0;
 }
-.connection-name{
-    /* font-family: sans-serif; */
-}
 
 .connection-button:hover{
     background-color: green;
