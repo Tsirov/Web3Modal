@@ -1,4 +1,3 @@
-import { ethers } from 'ethers';
 import Web3Modal from 'web3modal';
 import { useState, useEffect } from 'react';
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
@@ -7,7 +6,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import './connection.css';
 
 const Connection = (props) => {
-    const getProvider = props.getProvider;
+    const setAccountRefresh = props.setAccountRefresh;
     let [provider, setProvider] = useState(undefined);
     const INFURA_ID = 'f71e0fb08d4f4feba66004cd0ffd4200';
     const providerOptions = {
@@ -41,13 +40,13 @@ const Connection = (props) => {
         try {
             const currentProvider = await web3Modal.connect();
             setProvider(currentProvider);
-            props.provider(currentProvider)
+            props.setProxyHandler(currentProvider)
             currentProvider.on("accountsChanged", (e) => {
                 if (e.length > 0) {
-                    getProvider(null);
+                    setAccountRefresh(null);
                 } else {
                     web3Modal.clearCachedProvider();
-                    getProvider(null);
+                    setAccountRefresh(null);
                 }
                 console.log("accountsChanged");
             })

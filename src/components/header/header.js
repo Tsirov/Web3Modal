@@ -7,8 +7,9 @@ import './header.css';
 
 const Header = (props) => {
     const provider = props.provider;
-    const getProvider = props.getProvider;
+    const setProxyHandler = props.setProxyHandler;
     const contract = props.contract;
+
     const [price, setPrice] = useState('');
     const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ const Header = (props) => {
 
     const disconnect = () => {
         web3Modal.clearCachedProvider();
-        getProvider(null);
+        setProxyHandler(null);
         navigate('/');
     }
 

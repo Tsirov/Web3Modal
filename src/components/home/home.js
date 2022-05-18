@@ -6,12 +6,12 @@ import Header from '../header/header';
 import Connection from '../connection/connection';
 import Token from './Token-abi.json'
 
-const tokenAddress = '0x9da3d2486228563A8b83E3cbFC47056832e83741';
+const tokenAddress = '0x2e603651cae253f37a786119962d2de21826a42b';
 
 const Home = (props) => {
-    const currentProvider = props.provider;
+    const provider = props.provider;
     const token = props.token;
-    const [provider, setProvider] = useState({});
+    const setAccountRefresh = props.setAccountRefresh;
     const [address, setAddress] = useState('');
     const [network, setNetwork] = useState('');
     const [balance, setBalance] = useState(0);
@@ -21,18 +21,16 @@ const Home = (props) => {
 
     useEffect(() => {
         async function start() {
-            if (currentProvider) {
+            if (provider) {
                 try {
-                    const ethProvider = new ethers.providers.Web3Provider(currentProvider);
-                    setProvider(ethProvider)
-                    const currentSigner = ethProvider.getSigner();
+                    const currentSigner = provider.getSigner();
                     const currentAddress = await currentSigner.getAddress();
                     setAddress(currentAddress);
-                    const currentNetwork = await ethProvider.getNetwork();
+                    const currentNetwork = await provider.getNetwork();
                     setNetwork(currentNetwork);
-                    const currentBalance = await ethProvider.getBalance(currentAddress);
+                    const currentBalance = await provider.getBalance(currentAddress);
                     setBalance(ethers.utils.formatEther(currentBalance));
-                    const currentContract = new ethers.Contract(tokenAddress, Token.abi, ethProvider);
+                    const currentContract = new ethers.Contract(tokenAddress, Token.abi, provider);
                     setContract(currentContract);
                     const balance = await currentContract.balanceOf(currentAddress);
                     setTokenBalance(ethers.utils.formatEther(balance));
@@ -40,7 +38,6 @@ const Home = (props) => {
                     console.log(err);
                 }
             } else {
-                setProvider({});
                 setAddress('');
                 setNetwork('');
                 setBalance(0);
@@ -48,7 +45,7 @@ const Home = (props) => {
             }
         }
         start();
-    }, [currentProvider]);
+    }, [provider]);
 
     return (
         <section className="home-wrapper">
@@ -60,7 +57,7 @@ const Home = (props) => {
                         <h3 className="home-network-network">{ network.name } Network</h3>
                     </article>
                     
-                    <Header provider={ provider } getProvider={ props.getProvider } contract={contract }/>
+                    <Header provider={ provider } setProxyHandler={ props.setProxyHandler } contract={contract } />
                     <article className="home-account-info">
                         <p className="home-address">{ address }</p>
                         <p className="home-account-info-balance">Balance is <b>{ balance }</b>  ETH </p>
@@ -68,7 +65,7 @@ const Home = (props) => {
                     </article>
                 </section>
                 :
-                <Connection provider={ props.getProvider } getProvider={ props.getProvider } />
+                <Connection provider={ props.provider }  setProxyHandler={ props.setProxyHandler } setAccountRefresh={setAccountRefresh}/>
             }
         </section>
     )

@@ -5,8 +5,7 @@ import HistoryTransaction from './hisrotyTransaction/historyTransaction'
 import './history.css'
 
 const History = (props) => {
-    const currentProvider = props.provider;
-    const getHistoryFromProps = props.getHistory;
+    const provider = props.provider;
     const [history, setHistory] = useState([]);
     const [address, setAddress] = useState('');
     const [sendPayments, setSendPayments] = useState([]);
@@ -14,17 +13,15 @@ const History = (props) => {
     const [view, setView] = useState(undefined);
 
     useEffect(() => {
-        if (currentProvider) {
+        if (provider) {
             async function start() {
                 try {
-                    const ethProvider = new ethers.providers.Web3Provider(currentProvider);
-                    const currentSigner = ethProvider.getSigner();
-                    const network = await ethProvider.getNetwork();
+                    const currentSigner = provider.getSigner();
+                    const network = await provider.getNetwork();
                     const networkProvider = new ethers.providers.EtherscanProvider(network);
                     const currentAddress = await currentSigner.getAddress();
                     setAddress(currentAddress);
                     let currentHistory = await networkProvider.getHistory(currentAddress);
-                    getHistoryFromProps(currentHistory);
                     setHistory(currentHistory);
                 } catch (err) {
                     console.log(err);
@@ -39,7 +36,7 @@ const History = (props) => {
             setReceivePayments([]);
             setView(undefined);
         }
-    }, [currentProvider]);
+    }, [provider]);
 
     const clickHandlerSend = () => {
         if (history.length > 0) {

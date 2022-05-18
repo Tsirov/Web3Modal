@@ -5,8 +5,8 @@ import Token from '../home/Token-abi.json';
 import './send.css';
 
 const Send = (props) => {
-    const currentProvider = props.provider;
-    const setNewProvider = props.getProvider;
+    const provider = props.provider;
+    const setAccountRefresh = props.setAccountRefresh;
     const getToken = props.getToken;
     const currentToken = props.token;
     const [token, setToken] = useState(currentToken);
@@ -20,11 +20,9 @@ const Send = (props) => {
     const [miningTransaction, setMiningTransaction] = useState(false);
     const [address, setAddress] = useState('');
 
-    const provider = new ethers.providers.Web3Provider(currentProvider);
-
     useEffect(() => {
         async function start() {
-            if (currentProvider) {
+            if (provider) {
                 try {
                     const currentSigner = provider.getSigner();
                     setSigner(currentSigner);
@@ -46,7 +44,7 @@ const Send = (props) => {
             }
         }
         start();
-    }, [currentProvider]);
+    }, [provider]);
 
     useEffect(() => {
         if (amount.length > 0 && senderAddress.length > 0 && Object.keys(errorAddress).length === 0) {
@@ -84,31 +82,44 @@ const Send = (props) => {
 
     useEffect(() => {
         getToken(token)
-    }, [token])
+    }, [token]);
+
+    async function transactionEth() {
+        try {
+            const tx = await signer.sendTransaction({
+                to: senderAddress,
+                value: ethers.utils.parseEther(amount)
+            })
+            setMiningTransaction(true);
+            await provider.waitForTransaction(tx.hash);
+            setAccountRefresh(true);
+            setMiningTransaction(false);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    async function transactionToken(erc20_rw) {
+        try {
+            const tx = await erc20_rw.transfer(senderAddress, ethers.utils.parseEther(amount));
+            setMiningTransaction(true);
+            await provider.waitForTransaction(tx.hash);
+            setAccountRefresh(true);
+            setMiningTransaction(false);
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (currentToken === "ETH") {
             const neededAmount = Number(gasPrice) + Number(amount);
-
-            async function transaction() {
-                try {
-                    const tx = await signer.sendTransaction({
-                        to: senderAddress,
-                        value: ethers.utils.parseEther(amount)
-                    })
-                    setMiningTransaction(true);
-                    const minedTransaction = await provider.waitForTransaction(tx.hash);
-                    setMiningTransaction(false);
-                } catch (err) {
-                    console.log(err);
-                }
-            }
-
+           
             if (neededAmount <= balance) {
                 if (Object.keys(errorAddress).length === 0) {
-                    transaction();
+                    transactionEth();
                     setError('');
 
                 } else {
@@ -118,27 +129,16 @@ const Send = (props) => {
                 setError('Insufficient funds.')
             }
         } else if (currentToken === "DooM") {
-            const tokenAddress = '0xb9ebd829546effcab00d74b1448d0c6b7e32adba';
+            const tokenAddress = '0x2e603651cae253f37a786119962d2de21826a42b';
             const currentContract = new ethers.Contract(tokenAddress, Token.abi, provider);
             const erc20_rw = new ethers.Contract(tokenAddress, Token.abi, signer);
             const balanceOfToken = await currentContract.balanceOf(address); 
 
-            async function transaction() {
-                try {
-                    const tx = await erc20_rw.transfer(senderAddress, ethers.utils.parseEther(amount));
-                    console.log('tx', tx);
-                    setMiningTransaction(true);
-                    await provider.waitForTransaction(tx.hash);
-                    setMiningTransaction(false);
-                    setNewProvider(null);
-                } catch (err) {
-                    console.log(err);
-                }
-            }
+           
 
             if (Number(amount) <= balanceOfToken && Number(gasPrice) <= balance) {
                 if (Object.keys(errorAddress).length === 0) {
-                    transaction();
+                    transactionToken(erc20_rw);
                     setError('');
 
                 } else {
